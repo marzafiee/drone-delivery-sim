@@ -126,7 +126,11 @@ st.markdown(f"""
   }}
   .stProgress > div > div {{ background: {ACCENT} !important; }}
   .stSpinner > div {{ border-top-color: {ACCENT} !important; }}
-  #MainMenu, footer, header {{ visibility: hidden; }}
+  #MainMenu, footer {{ visibility: hidden; }}
+  header {
+    visibility: visible;
+    height: 0px;
+  }
 
   .tag {{
     display: inline-block; background: {BG3}; color: {TEXT2};
@@ -366,6 +370,35 @@ def build_flight_animation(flight_log, n_drones, dark_mode):
   #statusBar{{position:absolute;bottom:12px;left:12px;right:12px;display:flex;gap:8px;flex-wrap:wrap}}
   .chip{{background:{bg2};border:1px solid {border_c};border-radius:6px;padding:4px 10px;font-size:11px;color:{text2_c}}}
   .chip span{{color:{text_c};font-weight:600}}
+
+  /* Fix dropdowns / selectboxes */
+  [data-baseweb="select"] > div {
+  background-color: ${BG2} !important;
+  border-color: ${BORDER} !important;
+  color: ${TEXT} !important;}
+
+    /* Dropdown menu */
+    div[role="listbox"] {
+      background-color: ${BG} !important;
+      border: 1px solid ${BORDER} !important;
+    }
+
+    /* Dropdown options */
+    div[role="option"] {
+      background-color: ${BG} !important;
+      color: ${TEXT} !important;
+    }
+
+    /* Hover state */
+    div[role="option"]:hover {
+      background-color: ${BG3} !important;
+    }
+
+    /* Selected option */
+    div[aria-selected="true"] {
+      background-color: ${BG3} !important;
+      color: ${TEXT} !important;
+    }
 </style>
 </head>
 <body>
