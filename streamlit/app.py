@@ -8,7 +8,7 @@ import scipy.stats as stats
 import json
 
 st.set_page_config(
-    page_title="drone hub sim -- accra",
+    page_title="drone hub sim — accra",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -74,22 +74,27 @@ st.markdown(f"""
     color: {TEXT2} !important;
     font-size: 0.8rem !important;
   }}
+    /* fixing UI for dropdowns */
   div[data-baseweb="select"] > div {{
     background-color: {BG2} !important;
     border-color: {BORDER} !important;
     color: {TEXT} !important;
   }}
+
   div[role="listbox"] {{
     background-color: {BG} !important;
     border: 1px solid {BORDER} !important;
   }}
+
   div[role="option"] {{
     background-color: {BG} !important;
     color: {TEXT} !important;
   }}
+
   div[role="option"]:hover {{
     background-color: {BG3} !important;
   }}
+
   div[aria-selected="true"] {{
     background-color: {BG3} !important;
     color: {TEXT} !important;
@@ -140,58 +145,18 @@ st.markdown(f"""
     color: {TEXT} !important; background: transparent !important;
     border-bottom: 2px solid {TEXT} !important;
   }}
-
-  /* Fix expander to respect light/dark mode */
   [data-testid="stExpander"] {{
-    border: 1px solid {BORDER} !important;
-    border-radius: 8px !important;
+    border: 1px solid {BORDER} !important; border-radius: 8px !important;
     background: {BG2} !important;
   }}
-  [data-testid="stExpander"] summary {{
-    background: {BG2} !important;
-    color: {TEXT} !important;
-  }}
-  [data-testid="stExpander"] details {{
-    background: {BG2} !important;
-  }}
-  [data-testid="stExpander"] > div {{
-    background: {BG2} !important;
-  }}
-  /* Target the inner content area of expander */
-  [data-testid="stExpander"] [data-testid="stExpanderDetails"] {{
-    background: {BG2} !important;
-  }}
-
   .stProgress > div > div {{ background: {ACCENT} !important; }}
   .stSpinner > div {{ border-top-color: {ACCENT} !important; }}
-
-  /* Hide header toolbar icons (edit, GitHub, star) but keep sidebar toggle */
-  [data-testid="stToolbar"] {{
-    display: none !important;
+  header {{
+    visibility: visible;
   }}
-  /* Hide the top-right action buttons in the header */
-  .stAppHeader [data-testid="stHeaderActionElements"] {{
-    display: none !important;
-  }}
-  /* Keep the header visible but hide icon buttons on the right */
-  header [data-testid="stHeaderActionElements"] {{
-    display: none !important;
-  }}
-  /* Hide share, star, edit, github buttons */
-  header button:not([data-testid="baseButton-headerNoPadding"]) {{
-    display: none !important;
-  }}
-  /* Keep sidebar collapse button visible */
-  [data-testid="collapsedControl"],
-  [data-testid="baseButton-headerNoPadding"] {{
-    display: flex !important;
-    visibility: visible !important;
-  }}
-
   #MainMenu, footer {{
     visibility: hidden;
   }}
-
   .tag {{
     display: inline-block; background: {BG3}; color: {TEXT2};
     border-radius: 4px; font-size: 0.7rem; font-weight: 500;
@@ -222,10 +187,10 @@ LAMBDA_BY_HOUR    = {
     19: 3.0, 20: 3.0, 21: 3.0,
 }
 WIND_SEASONS = {
-    'harmattan':  {'months': [11, 12, 1, 2], 'mult': 1.00, 'label': 'harmattan (nov-feb)'},
-    'pre_rains':  {'months': [3, 4],         'mult': 1.15, 'label': 'pre-rains (mar-apr)'},
-    'main_rains': {'months': [5, 6],         'mult': 1.25, 'label': 'main rains (may-jun)'},
-    'mid_dry':    {'months': [7, 8, 9],      'mult': 1.25, 'label': 'mid-dry (jul-sep)'},
+    'harmattan':  {'months': [11, 12, 1, 2], 'mult': 1.00, 'label': 'harmattan (nov–feb)'},
+    'pre_rains':  {'months': [3, 4],         'mult': 1.15, 'label': 'pre-rains (mar–apr)'},
+    'main_rains': {'months': [5, 6],         'mult': 1.25, 'label': 'main rains (may–jun)'},
+    'mid_dry':    {'months': [7, 8, 9],      'mult': 1.25, 'label': 'mid-dry (jul–sep)'},
     'post_rains': {'months': [10],           'mult': 1.10, 'label': 'post-rains (oct)'},
 }
 PROCESS_NOISE_SD = 0.5
@@ -434,13 +399,16 @@ def build_flight_animation(flight_log, n_drones, dark_mode):
     background-color: {bg} !important;
     border: 1px solid {border_c} !important;
   }}
+
   div[role="option"] {{
     background-color: {bg} !important;
     color: {text_c} !important;
   }}
+
   div[role="option"]:hover {{
     background-color: {bg3_c} !important;
   }}
+
   div[aria-selected="true"] {{
     background-color: {bg3_c} !important;
     color: {text_c} !important;
@@ -457,10 +425,10 @@ def build_flight_animation(flight_log, n_drones, dark_mode):
     <div><div class="dot" style="background:{bg3_c}"></div>idle</div>
   </div>
   <div id="controls">
-    <label>speed: <strong id="speedVal">8x</strong></label>
+    <label>speed: <strong id="speedVal">8×</strong></label>
     <input id="speedSlider" type="range" min="1" max="40" value="8">
     <div id="timeLabel">t = 0 min</div>
-    <button id="playBtn">pause</button>
+    <button id="playBtn">⏸ pause</button>
   </div>
 </div>
 <div id="statusBar">
@@ -497,11 +465,11 @@ let simTime = 0, speed = 8, running = true, lastTs = null;
 
 document.getElementById('speedSlider').addEventListener('input', e=>{{
   speed=+e.target.value;
-  document.getElementById('speedVal').textContent=speed+'x';
+  document.getElementById('speedVal').textContent=speed+'×';
 }});
 document.getElementById('playBtn').addEventListener('click', ()=>{{
   running=!running;
-  document.getElementById('playBtn').textContent=running?'pause':'play';
+  document.getElementById('playBtn').textContent=running?'⏸ pause':'▶ play';
 }});
 
 const droneState = Array.from({{length:N_DRONES}},(_,i)=>({{
@@ -677,10 +645,10 @@ with st.sidebar:
     st.markdown(f"""
     <div style="margin-top:1rem;padding:0.7rem;background:{BG3};border-radius:6px;
          font-size:0.75rem;color:{TEXT2};line-height:2.1;">
-      wind multiplier <span style="color:{TEXT};float:right">{wind_mult:.2f}x</span><br>
+      wind multiplier <span style="color:{TEXT};float:right">{wind_mult:.2f}×</span><br>
       sla window      <span style="color:{TEXT};float:right">120 min</span><br>
-      dist range      <span style="color:{TEXT};float:right">3-8 km</span><br>
-      sim day         <span style="color:{TEXT};float:right">07:00-22:00</span>
+      dist range      <span style="color:{TEXT};float:right">3–8 km</span><br>
+      sim day         <span style="color:{TEXT};float:right">07:00–22:00</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -695,7 +663,7 @@ st.markdown(f"""
   Discrete-event simulation · Accra, Ghana · DJI FlyCart 30
   <span class='tag tag-blue'>SimPy</span>
   <span class='tag tag-green'>{season_labels_map[selected_season]}</span>
-  <span class='tag'>wind {wind_mult:.2f}x</span>
+  <span class='tag'>wind {wind_mult:.2f}×</span>
   <span class='tag'>{n_drones} drones · {n_chargers} chargers</span>
 </div>
 <hr class='notion-divider'>
@@ -761,7 +729,7 @@ if st.session_state.single_results:
     on_time = metrics['on_time_rate']
     p95     = metrics['p95_delivery_t']
 
-    st.markdown(f"<div class='notion-section'>results -- {nd} drones · {nc} chargers · seed {seed}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='notion-section'>results — {nd} drones · {nc} chargers · seed {seed}</div>", unsafe_allow_html=True)
     c1, c2, c3, c4, c5 = st.columns(5)
     kpi(c1, "on-time rate",    f"{on_time:.1%}",
         f"target {sla_target}%",
@@ -777,7 +745,7 @@ if st.session_state.single_results:
     st.markdown("<br>", unsafe_allow_html=True)
 
     tab_anim, tab1, tab2, tab3, tab4 = st.tabs([
-        "flight map", "delivery times", "queue dynamics", "drone utilisation", "raw data"
+        "🚁  flight map", "delivery times", "queue dynamics", "drone utilisation", "raw data"
     ])
 
     with tab_anim:
@@ -818,7 +786,7 @@ if st.session_state.single_results:
         fig3.add_trace(go.Bar(
             x=[f"{h:02d}:00" for h in hours], y=lambda_vals,
             marker_color=[ACCENT if l >= 8 else YELLOW_C if l >= 5 else GREEN_C for l in lambda_vals]))
-        fig3.update_layout(title='Time-varying arrival rate lambda',
+        fig3.update_layout(title='Time-varying arrival rate λ',
                            xaxis_title='hour of day', yaxis_title='packages per hour')
         apply_theme(fig3)
         st.plotly_chart(fig3, use_container_width=True)
@@ -873,18 +841,18 @@ if st.session_state.grid_results:
     sla_configs     = summary[summary['hits_sla']].copy()
     optimal         = sla_configs.loc[sla_configs['cost_proxy'].idxmin()] if len(sla_configs) > 0 else None
 
-    st.markdown(f"<div class='notion-section'>grid search -- {n_reps} replications per config</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='notion-section'>grid search — {n_reps} replications per config</div>", unsafe_allow_html=True)
 
     if optimal is not None:
         opt_d = int(optimal['n_drones'])
         opt_c = int(optimal['n_chargers'])
         gc1, gc2, gc3, gc4 = st.columns(4)
         kpi(gc1, "optimal config",  f"{opt_d}D + {opt_c}C",              f"cost proxy: {int(optimal['cost_proxy'])}", 'kpi-good')
-        kpi(gc2, "on-time rate",    f"{optimal['on_time_mean']:.1%}",     f"+-{optimal['on_time_ci']:.1%} CI")
+        kpi(gc2, "on-time rate",    f"{optimal['on_time_mean']:.1%}",     f"±{optimal['on_time_ci']:.1%} CI")
         kpi(gc3, "p95 delivery",    f"{optimal['p95_mean']:.0f} min",     f"late/run: {optimal['late_mean']:.1f}")
         kpi(gc4, "configs passing", f"{len(sla_configs)}", f"of {len(summary)} tested")
     else:
-        st.warning("no config met the SLA target -- try adding more drones or chargers.")
+        st.warning("no config met the SLA target — try adding more drones or chargers.")
         opt_d, opt_c = None, None
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -937,6 +905,7 @@ if st.session_state.grid_results:
 
     with gtab3:
         if opt_c is not None:
+            # use summary aggregated columns to avoid the KeyError
             util_s = summary[summary['n_chargers'] == opt_c].sort_values('n_drones').copy()
             fig_u  = go.Figure()
             for col_key, color, label in [
@@ -968,7 +937,7 @@ with st.expander("noise model verification"):
         fn1 = go.Figure()
         fn1.add_trace(go.Histogram(x=drain_samples, nbinsx=40, marker_color=ACCENT, opacity=0.7))
         fn1.add_vline(x=np.mean(drain_samples), line_dash='dash', line_color=YELLOW_C)
-        fn1.update_layout(title=f'Battery drain noise -- {dist_km}km trip',
+        fn1.update_layout(title=f'Battery drain noise — {dist_km}km trip',
                           xaxis_title='% drained', yaxis_title='count')
         apply_theme(fn1)
         st.plotly_chart(fn1, use_container_width=True)
@@ -977,7 +946,7 @@ with st.expander("noise model verification"):
         fn2.add_trace(go.Histogram(x=sensor_samples, nbinsx=40, marker_color=GREEN_C, opacity=0.7))
         fn2.add_vline(x=26.0, line_dash='dash', line_color=YELLOW_C,
                       annotation_text='true = 26%', annotation_font_color=YELLOW_C)
-        fn2.update_layout(title='Battery sensor noise -- true=26%',
+        fn2.update_layout(title='Battery sensor noise — true=26%',
                           xaxis_title='reported %', yaxis_title='count')
         apply_theme(fn2)
         st.plotly_chart(fn2, use_container_width=True)
