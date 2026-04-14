@@ -9,7 +9,6 @@ import json
 
 st.set_page_config(
     page_title="drone hub sim — accra",
-    page_icon="🚁",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -75,6 +74,32 @@ st.markdown(f"""
     color: {TEXT2} !important;
     font-size: 0.8rem !important;
   }}
+    /* fixing UI for dropdowns */
+  div[data-baseweb="select"] > div {{
+    background-color: {BG2} !important;
+    border-color: {BORDER} !important;
+    color: {TEXT} !important;
+  }}
+
+  div[role="listbox"] {{
+    background-color: {BG} !important;
+    border: 1px solid {BORDER} !important;
+  }}
+
+  div[role="option"] {{
+    background-color: {BG} !important;
+    color: {TEXT} !important;
+  }}
+
+  div[role="option"]:hover {{
+    background-color: {BG3} !important;
+  }}
+
+  div[aria-selected="true"] {{
+    background-color: {BG3} !important;
+    color: {TEXT} !important;
+  }}
+
   .block-container {{ padding: 2rem 2.5rem 4rem; max-width: 1400px; }}
   h1, h2, h3 {{ font-weight: 600; color: {TEXT}; }}
 
@@ -126,12 +151,12 @@ st.markdown(f"""
   }}
   .stProgress > div > div {{ background: {ACCENT} !important; }}
   .stSpinner > div {{ border-top-color: {ACCENT} !important; }}
-  #MainMenu, footer {{ visibility: hidden; }}
-  header {
+  header {{
     visibility: visible;
-    height: 0px;
-  }
-
+  }}
+  #MainMenu, footer {{
+    visibility: hidden;
+  }}
   .tag {{
     display: inline-block; background: {BG3}; color: {TEXT2};
     border-radius: 4px; font-size: 0.7rem; font-weight: 500;
@@ -370,35 +395,24 @@ def build_flight_animation(flight_log, n_drones, dark_mode):
   #statusBar{{position:absolute;bottom:12px;left:12px;right:12px;display:flex;gap:8px;flex-wrap:wrap}}
   .chip{{background:{bg2};border:1px solid {border_c};border-radius:6px;padding:4px 10px;font-size:11px;color:{text2_c}}}
   .chip span{{color:{text_c};font-weight:600}}
+  div[role="listbox"] {{
+    background-color: {bg} !important;
+    border: 1px solid {border_c} !important;
+  }}
 
-  /* Fix dropdowns / selectboxes */
-  [data-baseweb="select"] > div {
-  background-color: ${BG2} !important;
-  border-color: ${BORDER} !important;
-  color: ${TEXT} !important;}
+  div[role="option"] {{
+    background-color: {bg} !important;
+    color: {text_c} !important;
+  }}
 
-    /* Dropdown menu */
-    div[role="listbox"] {
-      background-color: ${BG} !important;
-      border: 1px solid ${BORDER} !important;
-    }
+  div[role="option"]:hover {{
+    background-color: {bg3_c} !important;
+  }}
 
-    /* Dropdown options */
-    div[role="option"] {
-      background-color: ${BG} !important;
-      color: ${TEXT} !important;
-    }
-
-    /* Hover state */
-    div[role="option"]:hover {
-      background-color: ${BG3} !important;
-    }
-
-    /* Selected option */
-    div[aria-selected="true"] {
-      background-color: ${BG3} !important;
-      color: ${TEXT} !important;
-    }
+  div[aria-selected="true"] {{
+    background-color: {bg3_c} !important;
+    color: {text_c} !important;
+  }}
 </style>
 </head>
 <body>
@@ -735,7 +749,7 @@ if st.session_state.single_results:
     ])
 
     with tab_anim:
-        st.markdown(f"<div style='font-size:0.8rem;color:{TEXT2};margin-bottom:0.5rem'>animated drone flight playback — use the speed slider to scrub through the operating day</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size:0.8rem;color:{TEXT2};margin-bottom:0.5rem'>Animated drone flight playback! Use the speed slider to go through the operating day</div>", unsafe_allow_html=True)
         components.html(build_flight_animation(flight_log, nd, dark), height=520, scrolling=False)
 
     with tab1:
