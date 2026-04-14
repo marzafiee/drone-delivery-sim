@@ -19,6 +19,11 @@ if 'dark_mode' not in st.session_state:
 
 dark = st.session_state.dark_mode
 
+def hex_to_rgba(hex_color, alpha=0.1):
+    hex_color = hex_color.lstrip('#')
+    r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return f'rgba({r},{g},{b},{alpha})'
+
 if dark:
     BG        = "#191919"
     BG2       = "#202020"
@@ -718,7 +723,7 @@ if st.session_state.single_results:
             fig2 = go.Figure()
             fig2.add_trace(go.Scatter(
                 x=sorted_t, y=cdf_vals*100, mode='lines',
-                line=dict(color=ACCENT, width=2), fill='tozeroy', fillcolor=ACCENT+'18',
+                line=dict(color=ACCENT, width=2), fill='tozeroy', fillcolor=hex_to_rgba(ACCENT, 0.1),
                 name='CDF'))
             fig2.add_vline(x=SLA_LIMIT, line_dash='dash', line_color=RED_C, line_width=1.5)
             fig2.add_hline(y=sla_target, line_dash='dot', line_color=YELLOW_C, line_width=1.5)
@@ -743,7 +748,7 @@ if st.session_state.single_results:
             fig4 = go.Figure()
             fig4.add_trace(go.Scatter(
                 x=qdf['time'], y=qdf['q_len'], mode='lines', fill='tozeroy',
-                line=dict(color=ACCENT, width=1.5), fillcolor=ACCENT+'18',
+                line=dict(color=ACCENT, width=1.5), fillcolor=hex_to_rgba(ACCENT, 0.1),
                 name='available drones'))
             fig4.update_layout(title='Available drones in pool over time',
                                xaxis_title='sim time (min)', yaxis_title='drones available')
